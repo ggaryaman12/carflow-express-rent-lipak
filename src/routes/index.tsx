@@ -130,24 +130,38 @@ function LandingPage() {
           {/* Nav — minimal, brand-only */}
           <nav className="flex items-center justify-between gap-4 text-white">
             <SuperLogo />
-            <a
-              href={`tel:+${WHATSAPP_NUMBER}`}
-              className="rounded-full border border-white/15 bg-white/[0.03] px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-white/80 backdrop-blur-xl transition hover:bg-white hover:text-black md:text-[11px]"
-            >
-              +91 97801 11802
-            </a>
+            <div className="flex items-center gap-5 md:gap-7">
+              <span className="hidden items-center gap-2 text-[13px] font-medium text-white/70 sm:inline-flex">
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white/60 opacity-75" />
+                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-white" />
+                </span>
+                Concierge open · 24×7
+              </span>
+              <a
+                href={`tel:+${WHATSAPP_NUMBER}`}
+                aria-label="Call SUPER Rental"
+                className="text-[13px] font-medium tracking-tight text-white/85 underline-offset-4 transition hover:text-white hover:underline"
+              >
+                +91 97801 11802
+              </a>
+            </div>
           </nav>
 
           {/* Headline */}
-          <div className="mt-16 max-w-3xl md:mt-24">
-            <h1 className="text-5xl font-black leading-[0.95] tracking-tight text-white text-balance md:text-7xl lg:text-[5.5rem]">
+          <div className="mt-20 max-w-3xl md:mt-28">
+            <div className="mb-6 inline-flex items-center gap-2.5 text-[11px] font-medium uppercase tracking-[0.32em] text-white/55">
+              <span className="h-px w-8 bg-white/30" />
+              Self-drive · Tricity
+            </div>
+            <h1 className="text-5xl font-black leading-[0.92] tracking-[-0.03em] text-white text-balance md:text-7xl lg:text-[6rem]">
               Drive.<br />
               Anytime.<br />
               <span className="gradient-text">Anywhere.</span>
             </h1>
-            <p className="mt-6 max-w-xl text-base text-white/65 md:text-lg">
-              Premium self-drive cars in Chandigarh, Mohali and Panchkula.
-              No commitment, unlimited options, hassle-free booking.
+            <p className="mt-7 max-w-xl text-base text-white/60 md:text-[17px] md:leading-relaxed">
+              A handpicked fleet of self-drive cars across Chandigarh, Mohali &amp; Panchkula —
+              booked in under a minute, delivered to your door.
             </p>
           </div>
 
