@@ -17,18 +17,6 @@ export const Route = createFileRoute("/")({
 
 const WHATSAPP_NUMBER = "919780111802";
 
-function defaultPickup() {
-  const d = new Date();
-  d.setHours(d.getHours() + 2, 0, 0, 0);
-  return d.toISOString().slice(0, 16);
-}
-function defaultDrop() {
-  const d = new Date();
-  d.setDate(d.getDate() + 1);
-  d.setHours(d.getHours() + 2, 0, 0, 0);
-  return d.toISOString().slice(0, 16);
-}
-
 function LandingPage() {
   const [city, setCity] = useState<City>(CITIES[0]);
   const [pickup, setPickup] = useState<string>("");
