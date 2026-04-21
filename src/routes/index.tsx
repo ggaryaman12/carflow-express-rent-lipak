@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ShieldCheck, Sparkles, Zap, Star, ChevronRight } from "lucide-react";
+import { ShieldCheck, Sparkles, Star, ChevronRight } from "lucide-react";
 
 import heroCar from "@/assets/hero-car.jpg";
 import { CARS, CITIES, type City } from "@/lib/cars";
@@ -10,6 +10,7 @@ import { VehicleGrid } from "@/components/VehicleGrid";
 import { CustomerForm } from "@/components/CustomerForm";
 import { BookingSummary } from "@/components/BookingSummary";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
+import { SuperLogo } from "@/components/SuperLogo";
 
 export const Route = createFileRoute("/")({
   component: LandingPage,
@@ -127,30 +128,20 @@ function LandingPage() {
 
         <div className="relative mx-auto max-w-7xl px-4 pb-16 pt-6 md:px-8 md:pb-24 md:pt-8">
           {/* Nav — premium pill */}
-          <nav className="rounded-full border border-white/10 bg-white/5 px-4 py-2.5 text-white backdrop-blur-xl md:px-6 md:py-3">
+          <nav className="rounded-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white backdrop-blur-2xl md:px-6 md:py-3">
             <div className="flex items-center justify-between gap-4">
-              <div className="flex items-center gap-2.5">
-                <div className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-                  <Zap className="h-5 w-5" strokeWidth={2.75} />
-                </div>
-                <div className="leading-none">
-                  <div className="text-base font-black tracking-[0.05em]">SUPER</div>
-                  <div className="mt-0.5 text-[10px] font-semibold uppercase tracking-[0.25em] text-white/50">
-                    Rental
-                  </div>
-                </div>
-              </div>
+              <SuperLogo />
               <div className="flex items-center gap-2 md:gap-3">
                 <a
                   href={`tel:+${WHATSAPP_NUMBER}`}
-                  className="hidden rounded-full px-4 py-2 text-sm font-medium text-white/80 transition hover:text-white md:inline-flex"
+                  className="hidden rounded-full px-4 py-2 text-sm font-medium text-white/70 transition hover:text-white md:inline-flex"
                 >
-                  Call us
+                  Franchise
                 </a>
                 <button
                   type="button"
                   onClick={handleSearch}
-                  className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.03] px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/10 md:px-5"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.03] px-4 py-2 text-sm font-semibold text-white transition hover:bg-white hover:text-black md:px-5"
                 >
                   Book Your Car
                   <ChevronRight className="h-4 w-4" />
@@ -192,15 +183,15 @@ function LandingPage() {
           {/* Trust */}
           <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-white/55 md:mt-10">
             <span className="inline-flex items-center gap-2">
-              <ShieldCheck className="h-4 w-4 text-primary" />
+              <ShieldCheck className="h-4 w-4 text-white/80" />
               Zero deposit options
             </span>
             <span className="inline-flex items-center gap-2">
-              <Star className="h-4 w-4 fill-primary text-primary" />
+              <Star className="h-4 w-4 fill-white text-white" />
               4.9 rating · 2,400+ reviews
             </span>
             <span className="inline-flex items-center gap-2">
-              <Zap className="h-4 w-4 text-primary" />
+              <Sparkles className="h-4 w-4 text-white/80" />
               Instant WhatsApp confirmation
             </span>
           </div>
