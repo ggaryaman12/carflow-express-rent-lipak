@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ShieldCheck, Sparkles, Zap, Star } from "lucide-react";
+import { ShieldCheck, Sparkles, Zap, Star, ChevronRight } from "lucide-react";
 
 import heroCar from "@/assets/hero-car.jpg";
 import { CARS, CITIES, type City } from "@/lib/cars";
@@ -31,8 +31,8 @@ function defaultDrop() {
 
 function LandingPage() {
   const [city, setCity] = useState<City>(CITIES[0]);
-  const [pickup, setPickup] = useState<string>(defaultPickup());
-  const [drop, setDrop] = useState<string>(defaultDrop());
+  const [pickup, setPickup] = useState<string>("");
+  const [drop, setDrop] = useState<string>("");
   const [showCars, setShowCars] = useState(false);
   const [selectedCarId, setSelectedCarId] = useState<string | null>(null);
   const [name, setName] = useState("");
@@ -48,6 +48,20 @@ function LandingPage() {
     [selectedCarId],
   );
 
+  // Set defaults on client only — avoids SSR hydration mismatch
+  useEffect(() => {
+    const p = new Date();
+    p.setHours(p.getHours() + 2, 0, 0, 0);
+    const d = new Date(p);
+    d.setDate(d.getDate() + 1);
+    const toLocal = (x: Date) => {
+      const tz = x.getTimezoneOffset() * 60000;
+      return new Date(x.getTime() - tz).toISOString().slice(0, 16);
+    };
+    setPickup(toLocal(p));
+    setDrop(toLocal(d));
+  }, []);
+
   function handleSearch() {
     setShowCars(true);
     setTimeout(() => {
@@ -56,10 +70,13 @@ function LandingPage() {
   }
 
   function handleSelectCar(id: string) {
-    setSelectedCarId(id);
-    setTimeout(() => {
-      detailsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 80);
+    // Toggle: clicking the selected car unselects it
+    setSelectedCarId((prev) => (prev === id ? null : id));
+    if (selectedCarId !== id) {
+      setTimeout(() => {
+        detailsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 80);
+    }
   }
 
   const canBook =
