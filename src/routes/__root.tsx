@@ -36,7 +36,7 @@ export const Route = createRootRoute({
           "Affordable self-drive car rental in Chandigarh, Mohali & Panchkula. Book Swift, Thar, Scorpio and more in under 30 seconds — confirm on WhatsApp.",
       },
       { name: "author", content: "SUPER Car Rental" },
-      { property: "og:title", content: "SUPER Car Rental — Self Drive in Tricity" },
+      { property: "og:title", content: "SUPER Car Rental — Self Drive Cars in Tricity" },
       {
         property: "og:description",
         content: "Self-drive cars in Chandigarh, Mohali & Panchkula. Book in 30 seconds.",
@@ -44,6 +44,12 @@ export const Route = createRootRoute({
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "theme-color", content: "#0e0a1f" },
+      { name: "twitter:title", content: "SUPER Car Rental — Self Drive Cars in Tricity" },
+      { name: "description", content: "A modern, responsive car rental landing page for booking self-drive vehicles." },
+      { property: "og:description", content: "A modern, responsive car rental landing page for booking self-drive vehicles." },
+      { name: "twitter:description", content: "A modern, responsive car rental landing page for booking self-drive vehicles." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/97ecd8d8-a407-455d-b15a-a9fdd28fb4bc/id-preview-370ae3e8--bcaaddff-2a83-4612-8e2e-d804e71fdb39.lovable.app-1776768627183.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/97ecd8d8-a407-455d-b15a-a9fdd28fb4bc/id-preview-370ae3e8--bcaaddff-2a83-4612-8e2e-d804e71fdb39.lovable.app-1776768627183.png" },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
