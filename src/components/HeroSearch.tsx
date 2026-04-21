@@ -1,5 +1,6 @@
-import { MapPin, Calendar, Search } from "lucide-react";
+import { MapPin, ArrowRight } from "lucide-react";
 import { CITIES, type City } from "@/lib/cars";
+import { DateTimeField } from "./DateTimeField";
 
 type Props = {
   city: City;
@@ -13,62 +14,41 @@ type Props = {
 
 export function HeroSearch({ city, pickup, drop, onCity, onPickup, onDrop, onSearch }: Props) {
   return (
-    <div className="rounded-3xl bg-surface/95 p-3 shadow-card backdrop-blur-xl ring-1 ring-white/10 md:p-3">
-      <div className="grid grid-cols-1 gap-2 md:grid-cols-[1.1fr_1.3fr_1.3fr_auto] md:items-stretch">
+    <div className="rounded-[28px] border border-white/10 bg-white/[0.03] p-2 shadow-card backdrop-blur-2xl md:p-2.5">
+      <div className="grid grid-cols-1 gap-1.5 md:grid-cols-[1.1fr_1.3fr_1.3fr_auto] md:items-stretch">
         {/* City */}
-        <label className="group flex items-center gap-3 rounded-2xl bg-muted/60 px-4 py-3 transition hover:bg-muted md:py-4">
-          <MapPin className="h-5 w-5 text-primary" />
+        <label className="group flex items-center gap-3 rounded-2xl bg-white/[0.04] px-4 py-3 ring-1 ring-white/[0.06] transition hover:bg-white/[0.07] md:py-4">
+          <MapPin className="h-5 w-5 text-ink-soft" />
           <div className="flex-1">
-            <div className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">City</div>
+            <div className="text-[11px] font-medium uppercase tracking-[0.18em] text-ink-soft">
+              City
+            </div>
             <select
               value={city}
               onChange={(e) => onCity(e.target.value as City)}
-              className="w-full bg-transparent text-base font-semibold text-ink outline-none"
+              className="-mx-1 w-[calc(100%+0.5rem)] cursor-pointer appearance-none bg-transparent px-1 text-base font-semibold text-ink outline-none"
             >
               {CITIES.map((c) => (
-                <option key={c} value={c}>{c}</option>
+                <option key={c} value={c} className="bg-background">
+                  {c}
+                </option>
               ))}
             </select>
           </div>
         </label>
 
-        {/* Pickup */}
-        <label className="group flex items-center gap-3 rounded-2xl bg-muted/60 px-4 py-3 transition hover:bg-muted md:py-4">
-          <Calendar className="h-5 w-5 text-primary" />
-          <div className="flex-1">
-            <div className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">Pickup</div>
-            <input
-              type="datetime-local"
-              value={pickup}
-              onChange={(e) => onPickup(e.target.value)}
-              className="w-full bg-transparent text-base font-semibold text-ink outline-none"
-            />
-          </div>
-        </label>
-
-        {/* Drop */}
-        <label className="group flex items-center gap-3 rounded-2xl bg-muted/60 px-4 py-3 transition hover:bg-muted md:py-4">
-          <Calendar className="h-5 w-5 text-primary" />
-          <div className="flex-1">
-            <div className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">Drop</div>
-            <input
-              type="datetime-local"
-              value={drop}
-              onChange={(e) => onDrop(e.target.value)}
-              className="w-full bg-transparent text-base font-semibold text-ink outline-none"
-            />
-          </div>
-        </label>
+        <DateTimeField label="Pickup" value={pickup} onChange={onPickup} />
+        <DateTimeField label="Drop" value={drop} onChange={onDrop} />
 
         {/* CTA */}
         <button
           type="button"
           onClick={onSearch}
-          className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-2xl bg-primary px-6 py-4 text-base font-semibold text-primary-foreground shadow-glow transition active:scale-[0.98] md:px-7"
+          className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-2xl bg-primary px-7 py-4 text-base font-semibold tracking-tight text-primary-foreground transition active:scale-[0.98]"
         >
-          <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
-          <Search className="h-5 w-5" />
+          <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
           Find Cars
+          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
         </button>
       </div>
     </div>
