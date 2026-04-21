@@ -11,10 +11,12 @@ type Props = {
 
 export function CustomerForm({ name, phone, location, onName, onPhone, onLocation }: Props) {
   return (
-    <div className="rounded-3xl bg-card p-6 shadow-soft ring-1 ring-border md:p-8">
-      <div className="mb-5">
+    <div className="rounded-3xl border border-white/10 bg-card p-6 shadow-soft md:p-8">
+      <div className="mb-6">
         <h3 className="text-2xl font-bold tracking-tight text-ink">Your details</h3>
-        <p className="mt-1 text-sm text-ink-soft">We&apos;ll send the booking confirmation on WhatsApp.</p>
+        <p className="mt-1 text-sm text-ink-soft">
+          We&apos;ll send the booking confirmation on WhatsApp.
+        </p>
       </div>
 
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
@@ -23,7 +25,7 @@ export function CustomerForm({ name, phone, location, onName, onPhone, onLocatio
             value={name}
             onChange={(e) => onName(e.target.value)}
             placeholder="Rahul Sharma"
-            className="w-full bg-transparent text-base font-medium text-ink outline-none placeholder:text-muted-foreground"
+            className="w-full bg-transparent text-base font-medium text-ink outline-none placeholder:text-ink-soft/50"
           />
         </Field>
 
@@ -34,7 +36,7 @@ export function CustomerForm({ name, phone, location, onName, onPhone, onLocatio
             type="tel"
             inputMode="numeric"
             placeholder="98XXX XXXXX"
-            className="w-full bg-transparent text-base font-medium text-ink outline-none placeholder:text-muted-foreground"
+            className="w-full bg-transparent text-base font-medium text-ink outline-none placeholder:text-ink-soft/50"
           />
         </Field>
 
@@ -44,7 +46,7 @@ export function CustomerForm({ name, phone, location, onName, onPhone, onLocatio
               value={location}
               onChange={(e) => onLocation(e.target.value)}
               placeholder="Sector 17, Chandigarh"
-              className="w-full bg-transparent text-base font-medium text-ink outline-none placeholder:text-muted-foreground"
+              className="w-full bg-transparent text-base font-medium text-ink outline-none placeholder:text-ink-soft/50"
             />
           </Field>
         </div>
@@ -63,9 +65,9 @@ function Field({
   children: React.ReactNode;
 }) {
   return (
-    <label className="group block rounded-2xl bg-muted/60 px-4 py-3 transition focus-within:bg-accent focus-within:ring-2 focus-within:ring-primary/30">
-      <div className="flex items-center gap-2 text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
-        <span className="text-primary">{icon}</span>
+    <label className="group block rounded-2xl bg-white/[0.04] px-4 py-3 ring-1 ring-white/[0.06] transition focus-within:bg-white/[0.07] focus-within:ring-white/30">
+      <div className="flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.18em] text-ink-soft">
+        <span className="text-ink">{icon}</span>
         {label}
       </div>
       <div className="mt-0.5">{children}</div>

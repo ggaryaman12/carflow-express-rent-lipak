@@ -34,7 +34,7 @@ export function VehicleCard({ car, selected, onSelect }: Props) {
       )}
 
       {/* Image */}
-      <div className="relative aspect-[5/3] w-full overflow-hidden bg-gradient-to-br from-neutral-900 to-neutral-800">
+      <div className="relative aspect-[5/3] w-full overflow-hidden bg-gradient-to-br from-surface to-surface-elevated">
         <img
           src={car.image}
           alt={car.name}
