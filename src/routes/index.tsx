@@ -4,6 +4,7 @@ import { ShieldCheck, Sparkles, Zap, Star } from "lucide-react";
 
 import heroCar from "@/assets/hero-car.jpg";
 import { CARS, CITIES, type City } from "@/lib/cars";
+import { submitBookingLead } from "@/lib/booking.functions";
 import { HeroSearch } from "@/components/HeroSearch";
 import { VehicleGrid } from "@/components/VehicleGrid";
 import { CustomerForm } from "@/components/CustomerForm";
@@ -68,10 +69,8 @@ function LandingPage() {
     if (!canBook || !selectedCar) return;
     setSubmitting(true);
     try {
-      await fetch("/api/booking-lead", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+      await submitBookingLead({
+        data: {
           name,
           phone,
           city,
@@ -79,7 +78,7 @@ function LandingPage() {
           pickup,
           drop,
           location,
-        }),
+        },
       }).catch(() => null);
 
       const message =
