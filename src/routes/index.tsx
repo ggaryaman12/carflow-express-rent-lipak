@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ShieldCheck, Sparkles, Star, ChevronRight } from "lucide-react";
+import { ShieldCheck, Sparkles, Star } from "lucide-react";
 
 import heroCar from "@/assets/hero-car.jpg";
 import { CARS, CITIES, type City } from "@/lib/cars";
@@ -127,36 +127,20 @@ function LandingPage() {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background" />
 
         <div className="relative mx-auto max-w-7xl px-4 pb-16 pt-6 md:px-8 md:pb-24 md:pt-8">
-          {/* Nav — premium pill */}
-          <nav className="rounded-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white backdrop-blur-2xl md:px-6 md:py-3">
-            <div className="flex items-center justify-between gap-4">
-              <SuperLogo />
-              <div className="flex items-center gap-2 md:gap-3">
-                <a
-                  href={`tel:+${WHATSAPP_NUMBER}`}
-                  className="hidden rounded-full px-4 py-2 text-sm font-medium text-white/70 transition hover:text-white md:inline-flex"
-                >
-                  Franchise
-                </a>
-                <button
-                  type="button"
-                  onClick={handleSearch}
-                  className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.03] px-4 py-2 text-sm font-semibold text-white transition hover:bg-white hover:text-black md:px-5"
-                >
-                  Book Your Car
-                  <ChevronRight className="h-4 w-4" />
-                </button>
-              </div>
-            </div>
+          {/* Nav — minimal, brand-only */}
+          <nav className="flex items-center justify-between gap-4 text-white">
+            <SuperLogo />
+            <a
+              href={`tel:+${WHATSAPP_NUMBER}`}
+              className="rounded-full border border-white/15 bg-white/[0.03] px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-white/80 backdrop-blur-xl transition hover:bg-white hover:text-black md:text-[11px]"
+            >
+              +91 97801 11802
+            </a>
           </nav>
 
           {/* Headline */}
           <div className="mt-16 max-w-3xl md:mt-24">
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-white/80 backdrop-blur">
-              <Sparkles className="h-3.5 w-3.5 text-primary" />
-              Trusted by 12,000+ drivers in Tricity
-            </div>
-            <h1 className="mt-6 text-5xl font-black leading-[0.95] tracking-tight text-white text-balance md:text-7xl lg:text-[5.5rem]">
+            <h1 className="text-5xl font-black leading-[0.95] tracking-tight text-white text-balance md:text-7xl lg:text-[5.5rem]">
               Drive.<br />
               Anytime.<br />
               <span className="gradient-text">Anywhere.</span>
@@ -180,19 +164,19 @@ function LandingPage() {
             />
           </div>
 
-          {/* Trust */}
+          {/* Generic premium strip */}
           <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-white/55 md:mt-10">
             <span className="inline-flex items-center gap-2">
               <ShieldCheck className="h-4 w-4 text-white/80" />
-              Zero deposit options
+              Fully insured fleet
             </span>
             <span className="inline-flex items-center gap-2">
               <Star className="h-4 w-4 fill-white text-white" />
-              4.9 rating · 2,400+ reviews
+              Sanitised &amp; serviced
             </span>
             <span className="inline-flex items-center gap-2">
               <Sparkles className="h-4 w-4 text-white/80" />
-              Instant WhatsApp confirmation
+              24×7 roadside support
             </span>
           </div>
         </div>
