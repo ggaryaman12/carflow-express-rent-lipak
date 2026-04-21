@@ -220,58 +220,64 @@ function LandingPage() {
         <VehicleGrid selectedId={selectedCarId} onSelect={handleSelectCar} />
       </section>
 
-      {/* DETAILS + SUMMARY */}
-      <section
-        ref={detailsRef}
-        className="mx-auto max-w-7xl px-4 pb-32 md:px-8 md:pb-32"
-      >
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-5 lg:gap-8">
-          <div className="lg:col-span-3">
-            <CustomerForm
-              name={name}
-              phone={phone}
-              location={location}
-              onName={setName}
-              onPhone={setPhone}
-              onLocation={setLocation}
-            />
+      {/* DETAILS + SUMMARY — only after a car is selected */}
+      {selectedCar && (
+        <section
+          ref={detailsRef}
+          className="mx-auto max-w-7xl px-4 pb-32 md:px-8 md:pb-32"
+        >
+          <div className="mb-8 md:mb-12">
+            <div className="text-xs font-semibold uppercase tracking-[0.2em] text-ink-soft">
+              Almost there
+            </div>
+            <h2 className="mt-2 text-3xl font-bold tracking-tight text-ink md:text-4xl">
+              Confirm your booking
+            </h2>
+          </div>
 
-            {/* Desktop CTA */}
-            <div className="mt-6 hidden md:block">
-              <WhatsAppButton
-                full
-                onClick={handleBook}
-                loading={submitting}
-                disabled={!canBook}
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-5 lg:gap-8">
+            <div className="lg:col-span-3">
+              <CustomerForm
+                name={name}
+                phone={phone}
+                location={location}
+                onName={setName}
+                onPhone={setPhone}
+                onLocation={setLocation}
               />
-              {!canBook && (
-                <p className="mt-3 text-center text-sm text-ink-soft">
-                  Select a car and enter your name &amp; 10-digit phone to continue.
-                </p>
-              )}
+
+              {/* Desktop CTA */}
+              <div className="mt-6 hidden md:block">
+                <WhatsAppButton
+                  full
+                  onClick={handleBook}
+                  loading={submitting}
+                  disabled={!canBook}
+                />
+                {!canBook && (
+                  <p className="mt-3 text-center text-sm text-ink-soft">
+                    Enter your name &amp; 10-digit phone to continue.
+                  </p>
+                )}
+              </div>
+            </div>
+
+            <div className="lg:col-span-2">
+              <BookingSummary
+                city={city}
+                vehicle={selectedCar}
+                pickup={pickup}
+                drop={drop}
+              />
             </div>
           </div>
-
-          <div className="lg:col-span-2">
-            <BookingSummary
-              city={city}
-              vehicle={selectedCar}
-              pickup={pickup}
-              drop={drop}
-            />
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Footer */}
-      <footer className="border-t border-border bg-surface">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-4 py-8 text-sm text-ink-soft md:flex-row md:px-8">
-          <div className="flex items-center gap-2">
-            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-              <Zap className="h-4 w-4" strokeWidth={2.5} />
-            </div>
-            <span className="font-semibold text-ink">SUPER Car Rental</span>
-          </div>
+      <footer className="border-t border-white/10 bg-background">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-4 py-10 text-sm text-ink-soft md:flex-row md:px-8">
+          <SuperLogo />
           <div>© {new Date().getFullYear()} SUPER Mobility · Chandigarh · Mohali · Panchkula</div>
         </div>
       </footer>
