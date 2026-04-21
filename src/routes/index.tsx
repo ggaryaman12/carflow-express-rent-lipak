@@ -1,26 +1,292 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { ShieldCheck, Sparkles, Zap, Star } from "lucide-react";
+
+import heroCar from "@/assets/hero-car.jpg";
+import { CARS, CITIES, type City } from "@/lib/cars";
+import { HeroSearch } from "@/components/HeroSearch";
+import { VehicleGrid } from "@/components/VehicleGrid";
+import { CustomerForm } from "@/components/CustomerForm";
+import { BookingSummary } from "@/components/BookingSummary";
+import { WhatsAppButton } from "@/components/WhatsAppButton";
 
 export const Route = createFileRoute("/")({
-  component: Index,
+  component: LandingPage,
 });
 
-// IMPORTANT: Replace this placeholder. For sites with multiple pages (About, Services, Contact, etc.),
-// create separate route files (about.tsx, services.tsx, contact.tsx) — don't put all pages in this file.
-function PlaceholderIndex() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
+const WHATSAPP_NUMBER = "919780111802";
+
+function defaultPickup() {
+  const d = new Date();
+  d.setHours(d.getHours() + 2, 0, 0, 0);
+  return d.toISOString().slice(0, 16);
+}
+function defaultDrop() {
+  const d = new Date();
+  d.setDate(d.getDate() + 1);
+  d.setHours(d.getHours() + 2, 0, 0, 0);
+  return d.toISOString().slice(0, 16);
 }
 
-function Index() {
-  return <PlaceholderIndex />;
+function LandingPage() {
+  const [city, setCity] = useState<City>(CITIES[0]);
+  const [pickup, setPickup] = useState<string>(defaultPickup());
+  const [drop, setDrop] = useState<string>(defaultDrop());
+  const [showCars, setShowCars] = useState(false);
+  const [selectedCarId, setSelectedCarId] = useState<string | null>(null);
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [location, setLocation] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+
+  const carsRef = useRef<HTMLDivElement>(null);
+  const detailsRef = useRef<HTMLDivElement>(null);
+
+  const selectedCar = useMemo(
+    () => CARS.find((c) => c.id === selectedCarId) ?? null,
+    [selectedCarId],
+  );
+
+  function handleSearch() {
+    setShowCars(true);
+    setTimeout(() => {
+      carsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 80);
+  }
+
+  function handleSelectCar(id: string) {
+    setSelectedCarId(id);
+    setTimeout(() => {
+      detailsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 80);
+  }
+
+  const canBook =
+    !!selectedCar && name.trim().length > 1 && /^\d{10}$/.test(phone);
+
+  async function handleBook() {
+    if (!canBook || !selectedCar) return;
+    setSubmitting(true);
+    try {
+      await fetch("/api/booking-lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          phone,
+          city,
+          vehicle: selectedCar.name,
+          pickup,
+          drop,
+          location,
+        }),
+      }).catch(() => null);
+
+      const message =
+        `Hello, I want to book a self-drive car.\n\n` +
+        `City: ${city}\n` +
+        `Vehicle: ${selectedCar.name}\n` +
+        `Pickup: ${pickup}\n` +
+        `Drop: ${drop}\n` +
+        `Pickup Location: ${location || "—"}\n\n` +
+        `Name: ${name}\n` +
+        `Phone: ${phone}`;
+
+      const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+      window.open(url, "_blank");
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  // Lock body scroll padding for sticky bar on mobile
+  useEffect(() => {
+    document.body.style.paddingBottom = selectedCar ? "96px" : "";
+    return () => {
+      document.body.style.paddingBottom = "";
+    };
+  }, [selectedCar]);
+
+  return (
+    <main className="min-h-screen bg-background">
+      {/* HERO */}
+      <section className="relative overflow-hidden">
+        <div className="gradient-hero absolute inset-0" />
+        <img
+          src={heroCar}
+          alt=""
+          width={1920}
+          height={1080}
+          className="absolute inset-0 h-full w-full object-cover opacity-40 mix-blend-luminosity"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background" />
+
+        <div className="relative mx-auto max-w-7xl px-4 pb-16 pt-6 md:px-8 md:pb-24 md:pt-8">
+          {/* Nav */}
+          <nav className="flex items-center justify-between text-white">
+            <div className="flex items-center gap-2">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary shadow-glow">
+                <Zap className="h-5 w-5" strokeWidth={2.5} />
+              </div>
+              <div className="text-lg font-bold tracking-tight">
+                SUPER<span className="ml-1 font-medium text-white/60">Car Rental</span>
+              </div>
+            </div>
+            <a
+              href={`tel:+${WHATSAPP_NUMBER}`}
+              className="hidden rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm font-medium text-white backdrop-blur transition hover:bg-white/10 md:inline-flex"
+            >
+              +91 97801 11802
+            </a>
+          </nav>
+
+          {/* Headline */}
+          <div className="mt-12 max-w-3xl md:mt-20">
+            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-white/80 backdrop-blur">
+              <Sparkles className="h-3.5 w-3.5 text-[oklch(0.78_0.18_305)]" />
+              Trusted by 12,000+ drivers in Tricity
+            </div>
+            <h1 className="mt-5 text-4xl font-bold leading-[1.05] tracking-tight text-white md:text-6xl lg:text-7xl">
+              Self Drive Car Rental{" "}
+              <span className="gradient-text">in Tricity</span>
+            </h1>
+            <p className="mt-5 max-w-xl text-base text-white/70 md:text-lg">
+              Affordable self-drive cars in Chandigarh, Mohali and Panchkula.
+              Book in 30 seconds — keys handed over the same day.
+            </p>
+          </div>
+
+          {/* Search bar */}
+          <div className="mt-8 md:mt-12">
+            <HeroSearch
+              city={city}
+              pickup={pickup}
+              drop={drop}
+              onCity={setCity}
+              onPickup={setPickup}
+              onDrop={setDrop}
+              onSearch={handleSearch}
+            />
+          </div>
+
+          {/* Trust */}
+          <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-white/60 md:mt-10">
+            <span className="inline-flex items-center gap-2">
+              <ShieldCheck className="h-4 w-4 text-[oklch(0.78_0.18_305)]" />
+              Zero deposit options
+            </span>
+            <span className="inline-flex items-center gap-2">
+              <Star className="h-4 w-4 fill-[oklch(0.85_0.18_85)] text-[oklch(0.85_0.18_85)]" />
+              4.9 rating · 2,400+ reviews
+            </span>
+            <span className="inline-flex items-center gap-2">
+              <Zap className="h-4 w-4 text-[oklch(0.78_0.18_305)]" />
+              Instant WhatsApp confirmation
+            </span>
+          </div>
+        </div>
+      </section>
+
+      {/* VEHICLES */}
+      <section
+        ref={carsRef}
+        className="relative mx-auto max-w-7xl px-4 py-16 md:px-8 md:py-24"
+      >
+        <div className="mb-8 flex items-end justify-between md:mb-12">
+          <div>
+            <div className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+              {showCars ? "Available now" : "Our fleet"}
+            </div>
+            <h2 className="mt-2 text-3xl font-bold tracking-tight text-ink md:text-4xl">
+              {showCars ? `Cars in ${city}` : "Pick your perfect ride"}
+            </h2>
+          </div>
+          <div className="hidden text-sm text-ink-soft md:block">
+            {CARS.length} vehicles available
+          </div>
+        </div>
+
+        <VehicleGrid selectedId={selectedCarId} onSelect={handleSelectCar} />
+      </section>
+
+      {/* DETAILS + SUMMARY */}
+      <section
+        ref={detailsRef}
+        className="mx-auto max-w-7xl px-4 pb-32 md:px-8 md:pb-32"
+      >
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-5 lg:gap-8">
+          <div className="lg:col-span-3">
+            <CustomerForm
+              name={name}
+              phone={phone}
+              location={location}
+              onName={setName}
+              onPhone={setPhone}
+              onLocation={setLocation}
+            />
+
+            {/* Desktop CTA */}
+            <div className="mt-6 hidden md:block">
+              <WhatsAppButton
+                full
+                onClick={handleBook}
+                loading={submitting}
+                disabled={!canBook}
+              />
+              {!canBook && (
+                <p className="mt-3 text-center text-sm text-ink-soft">
+                  Select a car and enter your name &amp; 10-digit phone to continue.
+                </p>
+              )}
+            </div>
+          </div>
+
+          <div className="lg:col-span-2">
+            <BookingSummary
+              city={city}
+              vehicle={selectedCar}
+              pickup={pickup}
+              drop={drop}
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-border bg-surface">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-4 py-8 text-sm text-ink-soft md:flex-row md:px-8">
+          <div className="flex items-center gap-2">
+            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+              <Zap className="h-4 w-4" strokeWidth={2.5} />
+            </div>
+            <span className="font-semibold text-ink">SUPER Car Rental</span>
+          </div>
+          <div>© {new Date().getFullYear()} SUPER Mobility · Chandigarh · Mohali · Panchkula</div>
+        </div>
+      </footer>
+
+      {/* Sticky mobile CTA */}
+      {selectedCar && (
+        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-surface/95 p-3 shadow-[0_-8px_24px_-8px_oklch(0_0_0/0.15)] backdrop-blur-xl md:hidden">
+          <div className="flex items-center gap-3">
+            <div className="flex flex-1 flex-col">
+              <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                {selectedCar.name}
+              </span>
+              <span className="text-base font-bold text-ink">
+                ₹{selectedCar.pricePerHour}
+                <span className="ml-1 text-xs font-medium text-muted-foreground">/hr</span>
+              </span>
+            </div>
+            <WhatsAppButton
+              onClick={handleBook}
+              loading={submitting}
+              disabled={!canBook}
+              label="WhatsApp"
+            />
+          </div>
+        </div>
+      )}
+    </main>
+  );
 }
