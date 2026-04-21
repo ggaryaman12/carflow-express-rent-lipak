@@ -34,7 +34,7 @@ export function BookingSummary({ city, vehicle, pickup, drop }: Props) {
   const total = vehicle ? vehicle.pricePerHour * Math.max(hours, 1) : 0;
 
   return (
-    <div className="overflow-hidden rounded-3xl bg-gradient-to-br from-ink to-[oklch(0.22_0.04_280)] p-6 text-white shadow-card md:p-8">
+    <div className="overflow-hidden rounded-3xl bg-gradient-to-br from-surface-elevated to-surface p-6 text-white shadow-card ring-1 ring-white/10 md:p-8">
       <div className="mb-5 flex items-center justify-between">
         <h3 className="text-2xl font-bold tracking-tight">Booking summary</h3>
         <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white/80 backdrop-blur">
@@ -100,7 +100,7 @@ function Row({
   return (
     <div className="flex items-center justify-between gap-4 rounded-2xl bg-white/5 px-4 py-3 ring-1 ring-white/10">
       <div className="flex items-center gap-2 text-sm text-white/70">
-        <span className="text-[oklch(0.78_0.18_305)]">{icon}</span>
+        <span className="text-primary">{icon}</span>
         {label}
       </div>
       <div className={`text-base font-semibold ${muted ? "text-white/40" : "text-white"}`}>{value}</div>

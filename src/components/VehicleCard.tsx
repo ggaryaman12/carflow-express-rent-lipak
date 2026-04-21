@@ -1,4 +1,4 @@
-import { Users, Fuel, Settings2, Check } from "lucide-react";
+import { Users, Fuel, Settings2, Check, Star } from "lucide-react";
 import type { Car } from "@/lib/cars";
 
 type Props = {
@@ -12,10 +12,11 @@ export function VehicleCard({ car, selected, onSelect }: Props) {
     <button
       type="button"
       onClick={() => onSelect(car.id)}
-      className={`group relative flex w-72 shrink-0 flex-col overflow-hidden rounded-3xl bg-card text-left shadow-soft ring-1 transition-all duration-300 hover:-translate-y-1 hover:shadow-card md:w-auto ${
+      aria-pressed={selected}
+      className={`group relative flex w-72 shrink-0 flex-col overflow-hidden rounded-3xl bg-card text-left ring-1 transition-all duration-300 hover:-translate-y-1 md:w-auto ${
         selected
           ? "ring-2 ring-primary shadow-glow"
-          : "ring-border hover:ring-primary/30"
+          : "ring-border hover:ring-white/20 shadow-soft hover:shadow-card"
       }`}
     >
       {/* Selected check */}
@@ -27,7 +28,7 @@ export function VehicleCard({ car, selected, onSelect }: Props) {
 
       {/* Badge */}
       {car.badge && !selected && (
-        <div className="absolute left-4 top-4 z-10 rounded-full bg-ink/90 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-white backdrop-blur">
+        <div className="absolute left-4 top-4 z-10 rounded-full bg-black/70 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-white backdrop-blur">
           {car.badge}
         </div>
       )}
@@ -42,15 +43,20 @@ export function VehicleCard({ car, selected, onSelect }: Props) {
           height={768}
           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
+        <div className="absolute inset-0 bg-gradient-to-t from-card via-card/20 to-transparent" />
       </div>
 
       {/* Body */}
       <div className="flex flex-1 flex-col gap-4 p-5">
-        <div>
-          <div className="text-[11px] font-semibold uppercase tracking-wider text-primary">
-            {car.category}
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <h3 className="text-xl font-bold tracking-tight text-ink">{car.name}</h3>
+            <div className="mt-1 text-xs font-medium text-ink-soft">{car.category}</div>
           </div>
-          <h3 className="mt-1 text-xl font-bold text-ink">{car.name}</h3>
+          <div className="inline-flex items-center gap-1 rounded-full bg-white/5 px-2 py-1 text-xs font-semibold text-ink ring-1 ring-white/10">
+            <Star className="h-3 w-3 fill-primary text-primary" />
+            4.9
+          </div>
         </div>
 
         <div className="flex items-center gap-4 text-sm text-ink-soft">
@@ -79,7 +85,7 @@ export function VehicleCard({ car, selected, onSelect }: Props) {
                 : "bg-secondary text-ink group-hover:bg-primary group-hover:text-primary-foreground"
             }`}
           >
-            {selected ? "Selected" : "Select"}
+            {selected ? "Selected · Tap to remove" : "Select"}
           </span>
         </div>
       </div>
