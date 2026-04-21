@@ -126,42 +126,58 @@ function LandingPage() {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background" />
 
         <div className="relative mx-auto max-w-7xl px-4 pb-16 pt-6 md:px-8 md:pb-24 md:pt-8">
-          {/* Nav */}
-          <nav className="flex items-center justify-between text-white">
-            <div className="flex items-center gap-2">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary shadow-glow">
-                <Zap className="h-5 w-5" strokeWidth={2.5} />
+          {/* Nav — premium pill */}
+          <nav className="rounded-full border border-white/10 bg-white/5 px-4 py-2.5 text-white backdrop-blur-xl md:px-6 md:py-3">
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex items-center gap-2.5">
+                <div className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+                  <Zap className="h-5 w-5" strokeWidth={2.75} />
+                </div>
+                <div className="leading-none">
+                  <div className="text-base font-black tracking-[0.05em]">SUPER</div>
+                  <div className="mt-0.5 text-[10px] font-semibold uppercase tracking-[0.25em] text-white/50">
+                    Rental
+                  </div>
+                </div>
               </div>
-              <div className="text-lg font-bold tracking-tight">
-                SUPER<span className="ml-1 font-medium text-white/60">Car Rental</span>
+              <div className="flex items-center gap-2 md:gap-3">
+                <a
+                  href={`tel:+${WHATSAPP_NUMBER}`}
+                  className="hidden rounded-full px-4 py-2 text-sm font-medium text-white/80 transition hover:text-white md:inline-flex"
+                >
+                  Call us
+                </a>
+                <button
+                  type="button"
+                  onClick={handleSearch}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.03] px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/10 md:px-5"
+                >
+                  Book Your Car
+                  <ChevronRight className="h-4 w-4" />
+                </button>
               </div>
             </div>
-            <a
-              href={`tel:+${WHATSAPP_NUMBER}`}
-              className="hidden rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm font-medium text-white backdrop-blur transition hover:bg-white/10 md:inline-flex"
-            >
-              +91 97801 11802
-            </a>
           </nav>
 
           {/* Headline */}
-          <div className="mt-12 max-w-3xl md:mt-20">
+          <div className="mt-16 max-w-3xl md:mt-24">
             <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-white/80 backdrop-blur">
-              <Sparkles className="h-3.5 w-3.5 text-[oklch(0.78_0.18_305)]" />
+              <Sparkles className="h-3.5 w-3.5 text-primary" />
               Trusted by 12,000+ drivers in Tricity
             </div>
-            <h1 className="mt-5 text-4xl font-bold leading-[1.05] tracking-tight text-white md:text-6xl lg:text-7xl">
-              Self Drive Car Rental{" "}
-              <span className="gradient-text">in Tricity</span>
+            <h1 className="mt-6 text-5xl font-black leading-[0.95] tracking-tight text-white text-balance md:text-7xl lg:text-[5.5rem]">
+              Drive.<br />
+              Anytime.<br />
+              <span className="gradient-text">Anywhere.</span>
             </h1>
-            <p className="mt-5 max-w-xl text-base text-white/70 md:text-lg">
-              Affordable self-drive cars in Chandigarh, Mohali and Panchkula.
-              Book in 30 seconds — keys handed over the same day.
+            <p className="mt-6 max-w-xl text-base text-white/65 md:text-lg">
+              Premium self-drive cars in Chandigarh, Mohali and Panchkula.
+              No commitment, unlimited options, hassle-free booking.
             </p>
           </div>
 
           {/* Search bar */}
-          <div className="mt-8 md:mt-12">
+          <div className="mt-10 md:mt-14">
             <HeroSearch
               city={city}
               pickup={pickup}
@@ -174,17 +190,17 @@ function LandingPage() {
           </div>
 
           {/* Trust */}
-          <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-white/60 md:mt-10">
+          <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-white/55 md:mt-10">
             <span className="inline-flex items-center gap-2">
-              <ShieldCheck className="h-4 w-4 text-[oklch(0.78_0.18_305)]" />
+              <ShieldCheck className="h-4 w-4 text-primary" />
               Zero deposit options
             </span>
             <span className="inline-flex items-center gap-2">
-              <Star className="h-4 w-4 fill-[oklch(0.85_0.18_85)] text-[oklch(0.85_0.18_85)]" />
+              <Star className="h-4 w-4 fill-primary text-primary" />
               4.9 rating · 2,400+ reviews
             </span>
             <span className="inline-flex items-center gap-2">
-              <Zap className="h-4 w-4 text-[oklch(0.78_0.18_305)]" />
+              <Zap className="h-4 w-4 text-primary" />
               Instant WhatsApp confirmation
             </span>
           </div>
