@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ShieldCheck, Sparkles, Star, ChevronRight } from "lucide-react";
+import { ShieldCheck, Sparkles, Star } from "lucide-react";
 
 import heroCar from "@/assets/hero-car.jpg";
 import { CARS, CITIES, type City } from "@/lib/cars";
