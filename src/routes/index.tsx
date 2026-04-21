@@ -117,14 +117,15 @@ function LandingPage() {
       {/* HERO */}
       <section className="relative overflow-hidden">
         <div className="gradient-hero absolute inset-0" />
+        <div className="grid-overlay absolute inset-0" />
         <img
           src={heroCar}
           alt=""
           width={1920}
           height={1080}
-          className="absolute inset-0 h-full w-full object-cover opacity-40 mix-blend-luminosity"
+          className="absolute inset-0 h-full w-full object-cover opacity-30 mix-blend-luminosity"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/20 to-background" />
 
         <div className="relative mx-auto max-w-7xl px-4 pb-16 pt-6 md:px-8 md:pb-24 md:pt-8">
           {/* Nav — minimal, brand-only */}
