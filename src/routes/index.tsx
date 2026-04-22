@@ -110,22 +110,6 @@ function LandingPage() {
           {/* Nav */}
           <nav className="flex items-center justify-between gap-4 text-white">
             <SuperLogo />
-            <div className="flex items-center gap-5 md:gap-7">
-              <span className="hidden items-center gap-2 text-[13px] font-medium text-white/70 sm:inline-flex">
-                <span className="relative flex h-1.5 w-1.5">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white/60 opacity-75" />
-                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-white" />
-                </span>
-                Concierge open · 24×7
-              </span>
-              <a
-                href={`tel:+${WHATSAPP_NUMBER}`}
-                aria-label="Call SUPER Rental"
-                className="text-[13px] font-medium tracking-tight text-white/85 underline-offset-4 transition hover:text-white hover:underline"
-              >
-                +91 97801 11802
-              </a>
-            </div>
           </nav>
 
           {/* Two-column hero: headline left, search right */}
