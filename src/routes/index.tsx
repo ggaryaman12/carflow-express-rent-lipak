@@ -202,11 +202,54 @@ function LandingPage() {
 
         <div className="pt-6">
           <VehicleGrid
-            cars={filteredCars}
+            cars={pagedCars}
             selectedId={selectedCarId}
             onSelect={handleSelectCar}
           />
         </div>
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="mt-10 flex flex-col items-center justify-center gap-4 md:flex-row md:justify-between">
+            <div className="text-xs text-ink-soft">
+              Showing <span className="font-semibold text-ink">{(currentPage - 1) * PAGE_SIZE + 1}</span>
+              –<span className="font-semibold text-ink">{Math.min(currentPage * PAGE_SIZE, filteredCars.length)}</span>
+              {" "}of <span className="font-semibold text-ink">{filteredCars.length}</span> cars
+            </div>
+            <div className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.03] p-1">
+              <button
+                onClick={() => setPage((p) => Math.max(1, p - 1))}
+                disabled={currentPage === 1}
+                className="rounded-full px-4 py-1.5 text-xs font-semibold text-ink-soft transition hover:text-ink disabled:cursor-not-allowed disabled:opacity-30"
+              >
+                ← Prev
+              </button>
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+                <button
+                  key={p}
+                  onClick={() => {
+                    setPage(p);
+                    document.getElementById("vehicles")?.scrollIntoView({ behavior: "smooth", block: "start" });
+                  }}
+                  className={`min-w-[2rem] rounded-full px-3 py-1.5 text-xs font-semibold tracking-tight transition ${
+                    p === currentPage
+                      ? "bg-white text-black shadow-sm"
+                      : "text-ink-soft hover:text-ink"
+                  }`}
+                >
+                  {p}
+                </button>
+              ))}
+              <button
+                onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                disabled={currentPage === totalPages}
+                className="rounded-full px-4 py-1.5 text-xs font-semibold text-ink-soft transition hover:text-ink disabled:cursor-not-allowed disabled:opacity-30"
+              >
+                Next →
+              </button>
+            </div>
+          </div>
+        )}
       </section>
 
       {/* Footer */}
