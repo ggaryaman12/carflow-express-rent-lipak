@@ -77,6 +77,7 @@ export function VehicleCard({ car, selected, onSelect }: Props) {
               ₹{car.pricePerHour}
               <span className="ml-1 text-sm font-medium text-ink-soft">/hr</span>
             </div>
+            <div className="text-[11px] text-ink-soft">₹{car.pricePerDay.toLocaleString("en-IN")}/day</div>
           </div>
           <span
             className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
@@ -85,7 +86,7 @@ export function VehicleCard({ car, selected, onSelect }: Props) {
                 : "bg-white/[0.08] text-ink ring-1 ring-white/10 group-hover:bg-white group-hover:text-black"
             }`}
           >
-            {selected ? "Selected" : "Select"}
+            {selected ? "Selected" : "View"}
           </span>
         </div>
       </div>
