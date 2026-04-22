@@ -129,14 +129,14 @@ function LandingPage() {
           </nav>
 
           {/* Two-column hero: headline left, search right */}
-          <div className="mt-16 grid grid-cols-1 items-start gap-10 md:mt-24 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
+          <div className="mt-16 grid grid-cols-1 items-start gap-10 md:mt-20 md:grid-cols-[1.1fr_1fr] md:gap-10 lg:gap-16">
             {/* Left: headline */}
             <div>
               <div className="mb-6 inline-flex items-center gap-2.5 text-[11px] font-medium uppercase tracking-[0.32em] text-white/55">
                 <span className="h-px w-8 bg-white/30" />
                 Self-drive · Tricity
               </div>
-              <h1 className="text-5xl font-black leading-[0.92] tracking-[-0.03em] text-white text-balance md:text-7xl lg:text-[5.5rem]">
+              <h1 className="text-5xl font-black leading-[0.92] tracking-[-0.03em] text-white text-balance md:text-6xl lg:text-[5.5rem]">
                 Drive.<br />
                 Anytime.<br />
                 <span className="gradient-text">Anywhere.</span>
