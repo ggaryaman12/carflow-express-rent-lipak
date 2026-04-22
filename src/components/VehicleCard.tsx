@@ -51,7 +51,10 @@ export function VehicleCard({ car, selected, onSelect }: Props) {
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
             <h3 className="truncate text-xl font-bold tracking-tight text-ink">{car.name}</h3>
-            <div className="mt-1 text-xs font-medium text-ink-soft">{car.category}</div>
+            <div className="mt-1 text-xs font-medium text-ink-soft">
+              {car.category}
+              {car.model ? <span className="ml-1.5 text-ink-soft/70">· {car.model}</span> : null}
+            </div>
           </div>
           <div className="inline-flex items-center gap-1 rounded-full bg-white/[0.06] px-2 py-1 text-xs font-semibold text-ink ring-1 ring-white/10">
             <Star className="h-3 w-3 fill-white text-white" />

@@ -27,6 +27,8 @@ function LandingPage() {
   const [phone, setPhone] = useState("");
   const [location, setLocation] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [page, setPage] = useState(1);
+  const PAGE_SIZE = 12;
   const [filters, setFilters] = useState<FilterState>({
     fuel: "all",
     seats: "all",
@@ -35,10 +37,21 @@ function LandingPage() {
   });
 
   const filteredCars = useMemo(() => applyFilters(CARS, filters), [filters]);
+  const totalPages = Math.max(1, Math.ceil(filteredCars.length / PAGE_SIZE));
+  const currentPage = Math.min(page, totalPages);
+  const pagedCars = useMemo(
+    () => filteredCars.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE),
+    [filteredCars, currentPage],
+  );
   const selectedCar = useMemo(
     () => CARS.find((c) => c.id === selectedCarId) ?? null,
     [selectedCarId],
   );
+
+  // Reset to page 1 when filters change
+  useEffect(() => {
+    setPage(1);
+  }, [filters]);
 
   // Set defaults on client only — avoids SSR hydration mismatch
   useEffect(() => {
@@ -110,22 +123,6 @@ function LandingPage() {
           {/* Nav */}
           <nav className="flex items-center justify-between gap-4 text-white">
             <SuperLogo />
-            <div className="flex items-center gap-5 md:gap-7">
-              <span className="hidden items-center gap-2 text-[13px] font-medium text-white/70 sm:inline-flex">
-                <span className="relative flex h-1.5 w-1.5">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white/60 opacity-75" />
-                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-white" />
-                </span>
-                Concierge open · 24×7
-              </span>
-              <a
-                href={`tel:+${WHATSAPP_NUMBER}`}
-                aria-label="Call SUPER Rental"
-                className="text-[13px] font-medium tracking-tight text-white/85 underline-offset-4 transition hover:text-white hover:underline"
-              >
-                +91 97801 11802
-              </a>
-            </div>
           </nav>
 
           {/* Two-column hero: headline left, search right */}
@@ -205,11 +202,54 @@ function LandingPage() {
 
         <div className="pt-6">
           <VehicleGrid
-            cars={filteredCars}
+            cars={pagedCars}
             selectedId={selectedCarId}
             onSelect={handleSelectCar}
           />
         </div>
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="mt-10 flex flex-col items-center justify-center gap-4 md:flex-row md:justify-between">
+            <div className="text-xs text-ink-soft">
+              Showing <span className="font-semibold text-ink">{(currentPage - 1) * PAGE_SIZE + 1}</span>
+              –<span className="font-semibold text-ink">{Math.min(currentPage * PAGE_SIZE, filteredCars.length)}</span>
+              {" "}of <span className="font-semibold text-ink">{filteredCars.length}</span> cars
+            </div>
+            <div className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.03] p-1">
+              <button
+                onClick={() => setPage((p) => Math.max(1, p - 1))}
+                disabled={currentPage === 1}
+                className="rounded-full px-4 py-1.5 text-xs font-semibold text-ink-soft transition hover:text-ink disabled:cursor-not-allowed disabled:opacity-30"
+              >
+                ← Prev
+              </button>
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+                <button
+                  key={p}
+                  onClick={() => {
+                    setPage(p);
+                    document.getElementById("vehicles")?.scrollIntoView({ behavior: "smooth", block: "start" });
+                  }}
+                  className={`min-w-[2rem] rounded-full px-3 py-1.5 text-xs font-semibold tracking-tight transition ${
+                    p === currentPage
+                      ? "bg-white text-black shadow-sm"
+                      : "text-ink-soft hover:text-ink"
+                  }`}
+                >
+                  {p}
+                </button>
+              ))}
+              <button
+                onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                disabled={currentPage === totalPages}
+                className="rounded-full px-4 py-1.5 text-xs font-semibold text-ink-soft transition hover:text-ink disabled:cursor-not-allowed disabled:opacity-30"
+              >
+                Next →
+              </button>
+            </div>
+          </div>
+        )}
       </section>
 
       {/* Footer */}
