@@ -27,6 +27,8 @@ function LandingPage() {
   const [phone, setPhone] = useState("");
   const [location, setLocation] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [page, setPage] = useState(1);
+  const PAGE_SIZE = 12;
   const [filters, setFilters] = useState<FilterState>({
     fuel: "all",
     seats: "all",
@@ -35,10 +37,21 @@ function LandingPage() {
   });
 
   const filteredCars = useMemo(() => applyFilters(CARS, filters), [filters]);
+  const totalPages = Math.max(1, Math.ceil(filteredCars.length / PAGE_SIZE));
+  const currentPage = Math.min(page, totalPages);
+  const pagedCars = useMemo(
+    () => filteredCars.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE),
+    [filteredCars, currentPage],
+  );
   const selectedCar = useMemo(
     () => CARS.find((c) => c.id === selectedCarId) ?? null,
     [selectedCarId],
   );
+
+  // Reset to page 1 when filters change
+  useEffect(() => {
+    setPage(1);
+  }, [filters]);
 
   // Set defaults on client only — avoids SSR hydration mismatch
   useEffect(() => {
