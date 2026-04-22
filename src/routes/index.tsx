@@ -136,7 +136,7 @@ function LandingPage() {
                 <span className="h-px w-8 bg-white/30" />
                 Self-drive · Tricity
               </div>
-              <h1 className="text-5xl font-black leading-[0.92] tracking-[-0.03em] text-white text-balance md:text-7xl lg:text-[5.5rem]">
+              <h1 className="text-5xl font-black leading-[0.92] tracking-[-0.03em] text-white text-balance md:text-6xl lg:text-[5.5rem]">
                 Drive.<br />
                 Anytime.<br />
                 <span className="gradient-text">Anywhere.</span>
