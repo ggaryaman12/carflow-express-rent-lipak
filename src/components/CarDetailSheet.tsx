@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import {
-  X, Users, Fuel, Settings2, Star, ShieldCheck, Sparkles,
-  Snowflake, Wind, Camera, Briefcase, MapPin, CalendarClock, ArrowRight,
-  CheckCircle2, XCircle, Crown,
+  X, Users, Fuel, Settings2, Star, ShieldCheck,
+  Snowflake, Camera, Briefcase, MapPin, CalendarClock,
+  CheckCircle2,
 } from "lucide-react";
 import type { Car } from "@/lib/cars";
 import { CustomerForm } from "./CustomerForm";
@@ -26,29 +26,10 @@ type Props = {
 };
 
 const FEATURES = [
-  { icon: Snowflake, label: "Air Conditioning" },
-  { icon: ShieldCheck, label: "Anti-lock Braking" },
-  { icon: Camera, label: "Reverse Camera" },
-  { icon: Wind, label: "Power Windows" },
-  { icon: Sparkles, label: "Power Steering" },
-  { icon: Briefcase, label: "Spacious Boot" },
-];
-
-const REVIEWS = [
-  {
-    name: "Mir Mustafa Hussain",
-    trips: 6,
-    rating: 5,
-    months: "Booked for 5 hrs · Apr 2026",
-    body: "The host was very friendly and pickup/drop was extremely convenient. Car was spotless and drove like a dream.",
-  },
-  {
-    name: "Amit S Sorathia",
-    trips: 4,
-    rating: 5,
-    months: "Booked for 8 hrs · Apr 2026",
-    body: "Amazing host — very few such helpful and understanding people. All my future Tricity trips will be with SUPER.",
-  },
+  { icon: Snowflake, label: "AC" },
+  { icon: ShieldCheck, label: "ABS" },
+  { icon: Camera, label: "Reverse Cam" },
+  { icon: Briefcase, label: "Boot Space" },
 ];
 
 function fmt(v: string) {
@@ -68,7 +49,6 @@ function hoursBetween(a: string, b: string) {
 export function CarDetailSheet(props: Props) {
   const { car, city, pickup, drop, onClose } = props;
 
-  // Lock body scroll
   useEffect(() => {
     if (!car) return;
     const prev = document.body.style.overflow;
@@ -76,7 +56,6 @@ export function CarDetailSheet(props: Props) {
     return () => { document.body.style.overflow = prev; };
   }, [car]);
 
-  // Close on escape
   useEffect(() => {
     if (!car) return;
     function onKey(e: KeyboardEvent) {
@@ -92,254 +71,164 @@ export function CarDetailSheet(props: Props) {
   const total = car.pricePerHour * Math.max(hours, 1);
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col bg-background animate-in fade-in duration-200">
-      {/* Top bar */}
-      <header className="sticky top-0 z-10 flex items-center justify-between gap-4 border-b border-white/[0.06] bg-background/90 px-4 py-3 backdrop-blur-xl md:px-8">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-0 sm:p-4 animate-in fade-in duration-150">
+      {/* Backdrop */}
+      <button
+        type="button"
+        aria-label="Close"
+        onClick={onClose}
+        className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+      />
+
+      {/* Modal */}
+      <div
+        role="dialog"
+        aria-modal="true"
+        className="relative z-10 flex max-h-[100dvh] w-full max-w-3xl flex-col overflow-hidden bg-background shadow-2xl ring-1 ring-white/10 sm:max-h-[92vh] sm:rounded-3xl animate-in zoom-in-95 duration-200"
+      >
+        {/* Close */}
         <button
           onClick={onClose}
-          className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-sm font-medium text-ink transition hover:bg-white/[0.08]"
+          className="absolute right-3 top-3 z-20 inline-flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur transition hover:bg-black/70"
+          aria-label="Close"
         >
           <X className="h-4 w-4" />
-          Close
         </button>
-        <div className="hidden text-sm font-semibold text-ink md:block">{car.name}</div>
-        <div className="text-sm text-ink-soft">
-          <span className="font-bold text-ink">₹{car.pricePerHour}</span>/hr
-        </div>
-      </header>
 
-      <div className="flex-1 overflow-y-auto pb-32 md:pb-12">
-        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-4 py-6 md:px-8 md:py-10 lg:grid-cols-5">
-          {/* LEFT — Gallery + info */}
-          <div className="lg:col-span-3">
-            {/* Hero image */}
-            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-surface to-surface-elevated">
-              <div className="aspect-[5/3] w-full">
-                <img src={car.image} alt={car.name} className="h-full w-full object-cover" />
+        <div className="flex-1 overflow-y-auto">
+          {/* Image header */}
+          <div className="relative">
+            <div className="aspect-[16/9] w-full overflow-hidden bg-gradient-to-br from-surface to-surface-elevated sm:aspect-[2/1]">
+              <img src={car.image} alt={car.name} className="h-full w-full object-cover" />
+            </div>
+            <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background to-transparent" />
+            {car.badge && (
+              <div className="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-black backdrop-blur">
+                {car.badge}
               </div>
-              {car.badge && (
-                <div className="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-black backdrop-blur">
-                  {car.badge}
+            )}
+          </div>
+
+          {/* Content */}
+          <div className="px-5 pb-5 sm:px-7 sm:pb-7">
+            {/* Title row */}
+            <div className="-mt-6 flex items-end justify-between gap-4">
+              <div className="min-w-0">
+                <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-ink-soft">
+                  {car.category}{car.model ? ` · ${car.model}` : ""}
+                </div>
+                <h1 className="mt-1 truncate text-2xl font-bold tracking-tight text-ink sm:text-3xl">
+                  {car.name}
+                </h1>
+              </div>
+              <div className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-white/[0.08] px-2.5 py-1 text-xs font-semibold text-ink ring-1 ring-white/10">
+                <Star className="h-3 w-3 fill-white text-white" />
+                4.9
+              </div>
+            </div>
+
+            {/* Spec + features grid */}
+            <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
+              <Spec icon={<Users className="h-3.5 w-3.5" />} value={`${car.seats} seats`} />
+              <Spec icon={<Settings2 className="h-3.5 w-3.5" />} value={car.transmission} />
+              <Spec icon={<Fuel className="h-3.5 w-3.5" />} value={car.fuel} />
+              <Spec icon={<ShieldCheck className="h-3.5 w-3.5" />} value="Insured" />
+            </div>
+
+            {/* Features chips */}
+            <div className="mt-3 flex flex-wrap gap-1.5">
+              {FEATURES.map((f) => (
+                <span
+                  key={f.label}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 text-xs text-ink-soft"
+                >
+                  <CheckCircle2 className="h-3 w-3 text-success" />
+                  {f.label}
+                </span>
+              ))}
+            </div>
+
+            {/* Trip summary */}
+            <div className="mt-5 grid grid-cols-3 gap-2 rounded-2xl border border-white/10 bg-white/[0.03] p-3">
+              <Trip icon={<MapPin className="h-3 w-3" />} label="City" value={city} />
+              <Trip icon={<CalendarClock className="h-3 w-3" />} label="Pickup" value={fmt(pickup)} />
+              <Trip icon={<CalendarClock className="h-3 w-3" />} label="Drop" value={fmt(drop)} />
+            </div>
+
+            {/* Price + hours */}
+            <div className="mt-4 flex items-center justify-between rounded-2xl bg-gradient-to-br from-surface-elevated to-surface px-4 py-3 ring-1 ring-white/10">
+              <div>
+                <div className="text-2xl font-bold tracking-tight text-ink">
+                  ₹{car.pricePerHour}
+                  <span className="ml-1 text-sm font-medium text-ink-soft">/hr</span>
+                </div>
+                <div className="text-[11px] text-ink-soft">
+                  ₹{car.pricePerDay.toLocaleString("en-IN")} / 24 hrs
+                </div>
+              </div>
+              {hours > 0 && (
+                <div className="text-right">
+                  <div className="text-[10px] font-semibold uppercase tracking-wider text-ink-soft">
+                    {hours} hr est
+                  </div>
+                  <div className="text-xl font-bold text-ink">
+                    ₹{total.toLocaleString("en-IN")}
+                  </div>
                 </div>
               )}
             </div>
 
-            {/* Title block */}
-            <div className="mt-6 flex items-start justify-between gap-4">
-              <div>
-                <div className="text-xs font-semibold uppercase tracking-[0.2em] text-ink-soft">
-                  {car.category}
-                </div>
-                <h1 className="mt-1 text-3xl font-bold tracking-tight text-ink md:text-4xl">
-                  {car.name}
-                </h1>
-              </div>
-              <div className="inline-flex items-center gap-1.5 rounded-full bg-white/[0.06] px-3 py-1.5 text-sm font-semibold text-ink ring-1 ring-white/10">
-                <Star className="h-3.5 w-3.5 fill-white text-white" />
-                4.9
-                <span className="text-xs font-normal text-ink-soft">· 240+</span>
-              </div>
-            </div>
-
-            {/* Spec strip */}
-            <div className="mt-5 grid grid-cols-3 gap-2 rounded-2xl border border-white/10 bg-white/[0.03] p-2">
-              <Spec icon={<Users className="h-4 w-4" />} label="Seats" value={`${car.seats}`} />
-              <Spec icon={<Settings2 className="h-4 w-4" />} label="Gear" value={car.transmission} />
-              <Spec icon={<Fuel className="h-4 w-4" />} label="Fuel" value={car.fuel} />
-            </div>
-
-            {/* Features */}
-            <Section title="Features">
-              <div className="flex flex-wrap gap-2">
-                {FEATURES.map((f) => (
-                  <span
-                    key={f.label}
-                    className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-1.5 text-sm text-ink"
-                  >
-                    <CheckCircle2 className="h-3.5 w-3.5 text-success" />
-                    {f.label}
-                  </span>
-                ))}
-              </div>
-            </Section>
-
-            {/* Ratings */}
-            <Section title="Ratings & Reviews">
-              <div className="mb-5 flex items-center gap-4">
-                <div className="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3">
-                  <Crown className="h-5 w-5 text-ink" />
-                  <div>
-                    <div className="text-2xl font-bold leading-none text-ink">4.9</div>
-                    <div className="mt-1 text-[10px] font-semibold uppercase tracking-wider text-ink-soft">
-                      Guest Favourite
-                    </div>
-                  </div>
-                </div>
-                <div className="text-sm text-ink-soft">
-                  Based on <span className="font-semibold text-ink">240+ trips</span>
-                  <br />
-                  <span className="text-xs">98% completed without issues</span>
-                </div>
-              </div>
-
-              <div className="grid gap-3 md:grid-cols-2">
-                {REVIEWS.map((r) => (
-                  <div key={r.name} className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-sm font-bold text-ink">
-                        {r.name.split(" ").map((n) => n[0]).slice(0, 2).join("")}
-                      </div>
-                      <div>
-                        <div className="text-sm font-semibold text-ink">{r.name}</div>
-                        <div className="text-[11px] text-ink-soft">{r.trips} trips with SUPER</div>
-                      </div>
-                    </div>
-                    <div className="mt-2 flex items-center gap-0.5">
-                      {Array.from({ length: r.rating }).map((_, i) => (
-                        <Star key={i} className="h-3.5 w-3.5 fill-white text-white" />
-                      ))}
-                      <span className="ml-2 text-[11px] text-ink-soft">{r.months}</span>
-                    </div>
-                    <p className="mt-2 text-sm leading-relaxed text-ink-soft">{r.body}</p>
-                  </div>
-                ))}
-              </div>
-            </Section>
-
-            {/* Inclusions */}
-            <Section title="Inclusions / Exclusions">
-              <ul className="space-y-2.5 text-sm">
-                <Inc ok>Security deposit (if applied) refunded within 2-3 days post trip.</Inc>
-                <Inc>Fuel not included. Return car with same fuel level.</Inc>
-                <Inc>Toll & FASTag charges not included.</Inc>
-                <Inc>Off-road, DUI, over-speeding & restricted zones excluded from protection.</Inc>
-              </ul>
-            </Section>
-          </div>
-
-          {/* RIGHT — sticky booking card */}
-          <div className="lg:col-span-2">
-            <div className="lg:sticky lg:top-24">
-              <div className="overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-surface-elevated to-surface p-6 shadow-card">
-                <div className="flex items-baseline justify-between">
-                  <div>
-                    <div className="text-3xl font-bold tracking-tight text-ink">
-                      ₹{car.pricePerHour}
-                      <span className="ml-1 text-base font-medium text-ink-soft">/hr</span>
-                    </div>
-                    <div className="mt-1 text-xs text-ink-soft">
-                      ₹{car.pricePerDay.toLocaleString("en-IN")} for full 24 hrs
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    {hours > 0 && (
-                      <>
-                        <div className="text-[10px] font-semibold uppercase tracking-wider text-ink-soft">
-                          {hours} hr est
-                        </div>
-                        <div className="text-xl font-bold text-ink">
-                          ₹{total.toLocaleString("en-IN")}
-                        </div>
-                      </>
-                    )}
-                  </div>
-                </div>
-
-                <div className="my-5 h-px bg-white/10" />
-
-                <div className="space-y-2">
-                  <Trip icon={<MapPin className="h-3.5 w-3.5" />} label="City" value={city} />
-                  <Trip icon={<CalendarClock className="h-3.5 w-3.5" />} label="Pickup" value={fmt(pickup)} />
-                  <Trip icon={<CalendarClock className="h-3.5 w-3.5" />} label="Drop" value={fmt(drop)} />
-                </div>
-              </div>
-
-              <div className="mt-4">
-                <CustomerForm
-                  name={props.name}
-                  phone={props.phone}
-                  location={props.location}
-                  onName={props.onName}
-                  onPhone={props.onPhone}
-                  onLocation={props.onLocation}
-                />
-              </div>
-
-              {/* Desktop CTA */}
-              <div className="mt-4 hidden md:block">
-                <WhatsAppButton
-                  full
-                  onClick={props.onBook}
-                  loading={props.submitting}
-                  disabled={!props.canBook}
-                />
-                {!props.canBook && (
-                  <p className="mt-3 text-center text-xs text-ink-soft">
-                    Enter your name &amp; 10-digit phone to continue.
-                  </p>
-                )}
-              </div>
+            {/* Customer form */}
+            <div className="mt-4">
+              <CustomerForm
+                name={props.name}
+                phone={props.phone}
+                location={props.location}
+                onName={props.onName}
+                onPhone={props.onPhone}
+                onLocation={props.onLocation}
+              />
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Sticky mobile CTA */}
-      <div className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-surface/95 p-3 backdrop-blur-xl md:hidden">
-        <div className="flex items-center gap-3">
-          <div className="flex flex-1 flex-col">
-            <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-              {car.name}
-            </span>
-            <span className="text-base font-bold text-ink">
-              ₹{car.pricePerHour}<span className="ml-1 text-xs font-medium text-muted-foreground">/hr</span>
-            </span>
-          </div>
-          <WhatsAppButton onClick={props.onBook} loading={props.submitting} disabled={!props.canBook} label="Book on WhatsApp" />
+        {/* Sticky CTA footer */}
+        <div className="border-t border-white/10 bg-surface/95 p-3 backdrop-blur-xl sm:p-4">
+          <WhatsAppButton
+            full
+            onClick={props.onBook}
+            loading={props.submitting}
+            disabled={!props.canBook}
+            label="Select & Book on WhatsApp"
+          />
+          {!props.canBook && (
+            <p className="mt-2 text-center text-[11px] text-ink-soft">
+              Enter your name &amp; 10-digit phone to continue.
+            </p>
+          )}
         </div>
       </div>
     </div>
   );
 }
 
-function Spec({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
+function Spec({ icon, value }: { icon: React.ReactNode; value: string }) {
   return (
-    <div className="rounded-xl bg-white/[0.03] px-3 py-3 text-center">
-      <div className="mb-1 flex justify-center text-ink-soft">{icon}</div>
-      <div className="text-sm font-semibold text-ink">{value}</div>
-      <div className="text-[10px] uppercase tracking-wider text-ink-soft">{label}</div>
+    <div className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-white/[0.04] px-3 py-2 text-xs font-semibold text-ink ring-1 ring-white/[0.06]">
+      <span className="text-ink-soft">{icon}</span>
+      {value}
     </div>
-  );
-}
-
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <section className="mt-8 border-t border-white/[0.06] pt-7">
-      <h2 className="mb-4 text-lg font-bold tracking-tight text-ink">{title}</h2>
-      {children}
-    </section>
-  );
-}
-
-function Inc({ ok = false, children }: { ok?: boolean; children: React.ReactNode }) {
-  return (
-    <li className="flex items-start gap-2.5 text-ink-soft">
-      {ok
-        ? <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-success" />
-        : <XCircle className="mt-0.5 h-4 w-4 shrink-0 text-destructive/80" />}
-      <span>{children}</span>
-    </li>
   );
 }
 
 function Trip({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
   return (
-    <div className="flex items-center justify-between gap-4 rounded-xl bg-white/[0.04] px-3 py-2.5 ring-1 ring-white/[0.06]">
-      <div className="inline-flex items-center gap-2 text-xs text-ink-soft">
+    <div className="min-w-0">
+      <div className="inline-flex items-center gap-1 text-[10px] font-medium uppercase tracking-wider text-ink-soft">
         <span className="text-ink">{icon}</span>
         {label}
       </div>
-      <div className="truncate text-sm font-semibold text-ink">{value}</div>
+      <div className="mt-0.5 truncate text-xs font-semibold text-ink">{value}</div>
     </div>
   );
 }
