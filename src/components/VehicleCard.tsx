@@ -89,7 +89,7 @@ export function VehicleCard({ car, selected, onSelect }: Props) {
                 : "bg-white/[0.08] text-ink ring-1 ring-white/10 group-hover:bg-white group-hover:text-black"
             }`}
           >
-            {selected ? "Selected" : "View"}
+            {selected ? "Selected" : "Select"}
           </span>
         </div>
       </div>
