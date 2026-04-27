@@ -12,12 +12,6 @@ type Props = {
 export function CustomerForm({ name, phone, location, onName, onPhone, onLocation }: Props) {
   return (
     <div className="rounded-3xl border border-white/10 bg-card p-6 shadow-soft md:p-8">
-      <div className="mb-6">
-        <h3 className="text-2xl font-bold tracking-tight text-ink">Your details</h3>
-        <p className="mt-1 text-sm text-ink-soft">
-          We&apos;ll send the booking confirmation on WhatsApp.
-        </p>
-      </div>
 
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
         <Field icon={<User className="h-4 w-4" />} label="Full name">
