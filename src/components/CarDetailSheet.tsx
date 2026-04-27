@@ -1,9 +1,5 @@
 import { useEffect } from "react";
-import {
-  X, Users, Fuel, Settings2, Star, ShieldCheck,
-  Snowflake, Camera, Briefcase, MapPin, CalendarClock,
-  CheckCircle2,
-} from "lucide-react";
+import { X, Star, MapPin, CalendarClock } from "lucide-react";
 import type { Car } from "@/lib/cars";
 import { CustomerForm } from "./CustomerForm";
 import { WhatsAppButton } from "./WhatsAppButton";
@@ -24,13 +20,6 @@ type Props = {
   submitting: boolean;
   canBook: boolean;
 };
-
-const FEATURES = [
-  { icon: Snowflake, label: "AC" },
-  { icon: ShieldCheck, label: "ABS" },
-  { icon: Camera, label: "Reverse Cam" },
-  { icon: Briefcase, label: "Boot Space" },
-];
 
 function fmt(v: string) {
   if (!v) return "—";
